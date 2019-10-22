@@ -5,10 +5,12 @@ from numpy import complex, array
 
 
 
-def init(widthh, heighth):
+def init():
 	global width, height, image1, pix
-	width = widthh #Note: Use the same resolution as your camera!
-	height = heighth
+	cap = cv2.VideoCapture(0)
+	width = int(cap.get(3)) #Should automatically get the resolution of your camera and work properly.
+	height = int(cap.get(4))
+	cap.release()
 	image1 = Image.new("RGB", (width, height), "white")
 	pix = image1.load()
 
@@ -51,13 +53,13 @@ def cSwitch(increment, xSign, ySign, cX, cY, lowercX, uppercX, lowercY, uppercY)
 	cSwitch.ySign = ySign
 	cSwitch.cX = cX
 	cSwitch.cY = cY
-	if cSwitch.cX < -.75:
+	if cSwitch.cX < lowercX:
 		cSwitch.xSign = "pos"
-	elif cSwitch.cX >= -.465:
+	elif cSwitch.cX >= uppercX:
 		cSwitch.xSign = "neg"
-	if cSwitch.cY >= 1.27265:
+	if cSwitch.cY >= uppercY:
 		cSwitch.ySign = "neg"
-	elif cSwitch.cY <= .16265:
+	elif cSwitch.cY <= lowercY:
 		cSwitch.ySign = "pos"
 	if cSwitch.xSign == "neg":
 		cSwitch.cX -= increment
@@ -70,10 +72,11 @@ def cSwitch(increment, xSign, ySign, cX, cY, lowercX, uppercX, lowercY, uppercY)
 
 
 def main(maxIter, toRun, lowercX, uppercX, lowercY, uppercY):
+	init()
 	z = 0
 	cX = -.7
 	cY = .27015
-	cSwitch(.002, "neg", "pos", cX, cY, lowercX, uppercX, lowercY, uppercY)
+	cSwitch(.2, "neg", "pos", cX, cY, lowercX, uppercX, lowercY, uppercY)
 	while True:
 		z += 1
 		print("frame " + str(z))

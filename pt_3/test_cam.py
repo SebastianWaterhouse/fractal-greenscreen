@@ -9,7 +9,8 @@ def init(lower_greenn, upper_greenn):
 	lower_green = np.array(lower_greenn)
 	upper_green = np.array(upper_greenn)
 
-def camera():
+def camera(lower_greennn, upper_greennn):
+	init(lower_greennn, upper_greennn)
 	while(True):
 		try:
 			background_image_1 = cv2.imread("a.jpg")
